@@ -9,6 +9,9 @@ st.title('4baseCare CDSS support')
 ddf = pd.read_csv('raw_data_combi.csv', index_col=0)
 
 
+## Take a list instead of a whole dataframe for calculation of cosine similarity
+
+
 df = ddf.copy()
 scaler = MinMaxScaler()
 df[['age', 'MSI']] = scaler.fit_transform(df[['age', 'MSI']])
@@ -64,7 +67,7 @@ if st.sidebar.button('Find Similar Patients'):
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(f"**Age:** {patient_info['age']}")
-        st.markdown(f"**Gender:** {'MALE' if patient_info['gender'] == 0 else 'FEMALE'}")
+        st.markdown(f"**Gender:** {'MALE' if patient_info['gender'] == 'MALE' else 'FEMALE'}")
         st.markdown(f"**MSI:** {patient_info['MSI']}")
     with col2:
         st.markdown(f"**Mutated Genes:** {', '.join(patient_common_genes)}")
@@ -77,7 +80,7 @@ if st.sidebar.button('Find Similar Patients'):
         similar_patient_info = ddf.iloc[idx]
         common_genes = get_common_genes(patient_index, idx)
         age = similar_patient_info['age']
-        gender = 'MALE' if similar_patient_info['gender'] == 0 else 'FEMALE'
+        gender = 'MALE' if similar_patient_info['gender'] == 'MALE' else 'FEMALE'
         MSI = similar_patient_info['MSI']
         
         with st.container():
